@@ -8,7 +8,8 @@
 
 ## Summarized Description
 The goal of this project is to write a scanner and parser for a very basic program language.
-Syntax for the program language is up to the student.
+Syntax for the program language is up to the student. However, comments must
+be denoted by ~ key, and eol denoted by ;
 
 ## Project Desc. Given By Prof.
 1. Project Description
