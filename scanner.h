@@ -15,7 +15,7 @@ enum TokenType {
     TOKEN_BEGIN,
     TOKEN_END,
     TOKEN_COMMENT,
-    TOKEN_UNKNOWN,
+    TOKEN_UNKNOWN, // token was not recognized when scanned
     TOKEN_END_OF_FILE
 };
 
@@ -33,17 +33,16 @@ private:
     std::unordered_set<std::string> keywords = {"begin", "end"}; // very similar to dictionaries in python, detect if the file is at the top or bottom
     bool isComment = false; // is token a comment? = completely ignore it
 
+    char getNextChar(); // retreive next lexeme in sequence of characters
+    Token scanIdentifierOrKeyword(char firstChar); // is this 'begin' or 'end' or something else
+    Token scanNumber(char firstChar); // is this a number?
+    Token scanOperator(char firstChar); // is this an operator?
+    Token scanComment(char firstChar); // is this a comment?
 
 public:
-    Scanner(const std::string& inputFile); // constructor that takes in input file address
+    Scanner(const std::string& fileName); // constructor that takes in input file address
     Token getNextToken(); // return the next token in order
     std::vector<Token> getAllTokens(); // return all tokens, mostly for testing
-
-    char getNextChar();
-    Token scanIdentifierOrKeyword(char firstChar);
-    Token scanNumber(char firstChar);
-    Token scanOperator(char firstChar);
-    Token scanComment(char firstChar);
 };
 
 #endif
