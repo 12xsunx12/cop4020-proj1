@@ -1,10 +1,9 @@
 #include "scanner.h"
-#include <cctype>
 
 // constructor, takes in fileName containing source code
 Scanner::Scanner(const std::string& fileName) {
     inputFile.open(fileName);
-    if (inputFile.is_open()) std::cout << "Error: couldn't open file" << std::endl;
+    if (!inputFile.is_open()) std::cout << "Error: couldn't open file" << std::endl;
 }
 
 // get the next char from the file
