@@ -23,7 +23,7 @@ enum TokenType {
 struct Token {
     TokenType type;
     std::string lexeme;
-    int line;
+    int lineNumber;
 };
 
 class Scanner {

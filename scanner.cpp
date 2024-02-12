@@ -4,6 +4,8 @@
 Scanner::Scanner(const std::string& fileName) {
     inputFile.open(fileName);
     if (!inputFile.is_open()) std::cout << "Error: couldn't open file" << std::endl;
+
+    lineNumber = 0;
 }
 
 // get the next char from the file
