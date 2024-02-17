@@ -49,6 +49,19 @@ void Scanner::initAll() {
     initDigits();
 }
 
+void Scanner::initOpTable() {
+    opTable["lParen"] = '(';
+    opTable["rParen"] = ')';
+    opTable["lCurly"] = '{';
+    opTable["rCurly"] = '}';
+    opTable["plusSym"] = '+';
+    opTable["minusSym"] = '-';
+    opTable["multSym"] = '*';
+    opTable["divSym"] = '/';
+    opTable["semi"] = ';';
+    opTable["comma"] = ',';
+}
+
 std::string Scanner::getFileName() {
     return this->fileName;
 }
