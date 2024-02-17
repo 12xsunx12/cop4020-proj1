@@ -21,7 +21,7 @@
 class Scanner {
     private:
         std::unordered_map<std::string, std::string> opTable;           // map & keys to all acceptable operators; (, ), {, }, +, -, *, /
-        std::unordered_map<std::string, std::string> keywordTable;     // map & keys to all acceptable keywords; if, else, while, return...
+        std::unordered_map<std::string, std::string> keywordTable;      // map & keys to all acceptable keywords; if, else, while, return...
         std::unordered_set<char> ALPHABET;      // the entire english alphabet, a-z and A-Z
         std::unordered_set<int> DIGITS;         // 1-9 numbers
         std::string fileName;                   // name of the source code file
@@ -29,8 +29,14 @@ class Scanner {
         std::string currentLine;                // std::getline(ifs, currentLine) ; the `current` line in our source code file
         int totalLines;                         // count how many lines are in the `source code` file; incremented in `nextLine()`
 
-        bool openFile();        // using `fileName`, attempt to open given `source code` file
-        std::string nextLine();        // grabs the `next line` in the file and sets it equal to currentLine
+        bool openFile();            // using `fileName`, attempts to open given `source code` file
+        std::string nextLine();     // grabs the `next line` in the file and sets it equal to currentLine
+
+        void initAll();             // run all `init` functions
+        void initOpTable();         // init. the opTable hashmap
+        void initKeywordTable();    // init. the keywordTable hashmap
+        void initAlphabet();        // init. the ALPHABET set
+        void initDigits();          // init. the DIGITS set
 
         std::string getFileName();
         std::string getCurrentLine();

@@ -42,6 +42,13 @@ std::string Scanner::nextLine() {
     return getCurrentLine();
 }
 
+void Scanner::initAll() {
+    initOpTable();
+    initKeywordTable();
+    initAlphabet();
+    initDigits();
+}
+
 std::string Scanner::getFileName() {
     return this->fileName;
 }
