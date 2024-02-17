@@ -17,12 +17,14 @@
 Scanner::Scanner() {
     this->fileName = "";
     totalLines = 0;
+    initAll();
 }
 
 // param constructor
 Scanner::Scanner(std::string fileName) {
     this->fileName = fileName;
     totalLines = 0;
+    initAll();
 }
 
 bool Scanner::openFile() {
