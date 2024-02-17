@@ -12,6 +12,22 @@
 
 #include "scanner.h"
 
+// default constructor
 Scanner::Scanner() {
-
+    this->fileName = "";
 }
+
+// param constructor
+Scanner::Scanner(std::string fileName) {
+    this->fileName = fileName;
+}
+
+bool Scanner::openFile() {
+    ifs.open(fileName);
+    if (!ifs.is_open()) {
+        std::cout << "Error: file doesn't exist or couldn't be opened" << std::endl;
+        return false;
+    }
+    return true;
+}
+
