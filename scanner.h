@@ -27,10 +27,10 @@ class Scanner {
         std::string fileName;                   // name of the source code file
         std::ifstream ifs;                      // input file stream; read input file
         std::string currentLine;                // std::getline(ifs, currentLine) ; the `current` line in our source code file
+        int totalLines;                         // count how many lines are in the `source code` file; incremented in `nextLine()`
 
         bool openFile();        // using `fileName`, attempt to open given `source code` file
-        void nextLine();        // grabs the `next line` in the file and sets it equal to currentLine
-
+        std::string nextLine();        // grabs the `next line` in the file and sets it equal to currentLine
 
         std::string getFileName();
         std::string getCurrentLine();
@@ -38,9 +38,10 @@ class Scanner {
         void setCurrentLine(std::string a);
 
     public:
-        Scanner();                      // default
-        Scanner(std::string fileName);  // param
-        bool openFile(std::string fileName);
+        Scanner();                              // default
+        Scanner(std::string fileName);          // param
+        void test();                            // used for testing priv. functions in main
+        bool openFile(std::string fileName);    // open a `source code` file given a string; sets fileName to input as well
 };
 
 #endif

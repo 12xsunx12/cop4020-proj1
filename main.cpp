@@ -10,7 +10,9 @@
 #include "scanner.h"
 
 int main() {
-    Scanner s;
+    Scanner s("example-source-code-inputs/a1");
+
+    s.test();
 
     return 0;
 }

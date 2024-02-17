@@ -16,11 +16,13 @@
 // default constructor
 Scanner::Scanner() {
     this->fileName = "";
+    totalLines = 0;
 }
 
 // param constructor
 Scanner::Scanner(std::string fileName) {
     this->fileName = fileName;
+    totalLines = 0;
 }
 
 bool Scanner::openFile() {
@@ -30,6 +32,14 @@ bool Scanner::openFile() {
         return false;
     }
     return true;
+}
+
+std::string Scanner::nextLine() {
+    std::string temp;
+    std::getline(ifs, temp);
+    setCurrentLine(temp);
+    totalLines++;
+    return getCurrentLine();
 }
 
 std::string Scanner::getFileName() {
@@ -46,6 +56,14 @@ void Scanner::setFileName(std::string a){
 
 void Scanner::setCurrentLine(std::string a) {
     this->currentLine = a;
+}
+
+void Scanner::test() {
+    // attempt to open file
+    openFile();
+
+    // print the output from nextLine
+    std::cout << nextLine() << " " << totalLines << std::endl;
 }
 
 bool Scanner::openFile(std::string fileName) {
