@@ -85,7 +85,10 @@ void Scanner::initAlphabet() {
 }
 
 void Scanner::initDigits() {
-
+    // all digits 0-9
+    for (int i = 0; i < 10; i++){
+        DIGITS.insert(i);
+    }
 }
 
 std::string Scanner::getFileName() {
@@ -105,10 +108,10 @@ void Scanner::setCurrentLine(std::string a) {
 }
 
 void Scanner::test() {
-    initAlphabet();
+    initDigits();
 
-    for (char c : ALPHABET){
-        std::cout << c << std::endl;
+    for (int a : DIGITS){
+        std:: cout << a << std::endl;
     }
 }
 
