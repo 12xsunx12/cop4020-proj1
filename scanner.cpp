@@ -48,3 +48,12 @@ void Scanner::setCurrentLine(std::string a) {
     this->currentLine = a;
 }
 
+bool Scanner::openFile(std::string fileName) {
+    ifs.open(fileName);
+    if (!ifs.is_open()) {
+        std::cout << "Error: file doesn't exist or couldn't be opened" << std::endl;
+        return false;
+    }
+    return true;
+}
+
