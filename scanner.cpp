@@ -72,6 +72,22 @@ void Scanner::initKeywordTable() {
     keywordTable["stringSym"] = "string";
 }
 
+void Scanner::initAlphabet() {
+    // all lower case letters
+    for (int i = 'a'; i < 'z'; i++){
+        ALPHABET.insert(i);
+    }
+
+    // all uppercase letters
+    for (int i = 'A'; i < 'Z'; i++){
+        ALPHABET.insert(i);
+    }
+}
+
+void Scanner::initDigits() {
+
+}
+
 std::string Scanner::getFileName() {
     return this->fileName;
 }
@@ -89,11 +105,11 @@ void Scanner::setCurrentLine(std::string a) {
 }
 
 void Scanner::test() {
-    // attempt to open file
-    openFile();
+    initAlphabet();
 
-    // print the output from nextLine
-    std::cout << nextLine() << " " << totalLines << std::endl;
+    for (char c : ALPHABET){
+        std::cout << c << std::endl;
+    }
 }
 
 bool Scanner::openFile(std::string fileName) {
