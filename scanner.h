@@ -18,6 +18,12 @@
 #include <unordered_map>    // similar to dictionaries in python; hashmaps
 #include <unordered_set>    // O(1) lookup; slap the entire english alphabet and all 1-9 digits into a set
 
+struct Token {
+    std::string lexeme;
+    std::string tokenType;
+    int lineNumber;
+};
+
 class Scanner {
     private:
         std::unordered_map<std::string, char> opTable;           // map & keys to all acceptable operators; (, ), {, }, +, -, *, /

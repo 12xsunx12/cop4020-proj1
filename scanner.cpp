@@ -52,26 +52,26 @@ void Scanner::initAll() {
 }
 
 void Scanner::initOpTable() {
-    opTable["lParen"] = '(';
-    opTable["rParen"] = ')';
-    opTable["lCurly"] = '{';
-    opTable["rCurly"] = '}';
-    opTable["plusSym"] = '+';
+    opTable["lParen"]   = '(';
+    opTable["rParen"]   = ')';
+    opTable["lCurly"]   = '{';
+    opTable["rCurly"]   = '}';
+    opTable["plusSym"]  = '+';
     opTable["minusSym"] = '-';
-    opTable["multSym"] = '*';
-    opTable["divSym"] = '/';
-    opTable["semi"] = ';';
-    opTable["comma"] = ',';
+    opTable["multSym"]  = '*';
+    opTable["divSym"]   = '/';
+    opTable["semi"]     = ';';
+    opTable["comma"]    = ',';
 }
 
 void Scanner::initKeywordTable() {
-    keywordTable["whileSym"] = "while";
-    keywordTable["returnSym"] = "return";
-    keywordTable["ifSym"] = "if";
-    keywordTable["elseSym"] = "else";
-    keywordTable["doSym"] = "do";
-    keywordTable["intSym"] = "int";
-    keywordTable["stringSym"] = "string";
+    keywordTable["whileSym"]    = "while";
+    keywordTable["returnSym"]   = "return";
+    keywordTable["ifSym"]       = "if";
+    keywordTable["elseSym"]     = "else";
+    keywordTable["doSym"]       = "do";
+    keywordTable["intSym"]      = "int";
+    keywordTable["stringSym"]   = "string";
 }
 
 void Scanner::initAlphabet() {
@@ -125,4 +125,3 @@ bool Scanner::openFile(std::string fileName) {
     }
     return true;
 }
-
