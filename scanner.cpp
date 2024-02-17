@@ -62,6 +62,16 @@ void Scanner::initOpTable() {
     opTable["comma"] = ',';
 }
 
+void Scanner::initKeywordTable() {
+    keywordTable["whileSym"] = "while";
+    keywordTable["returnSym"] = "return";
+    keywordTable["ifSym"] = "if";
+    keywordTable["elseSym"] = "else";
+    keywordTable["doSym"] = "do";
+    keywordTable["intSym"] = "int";
+    keywordTable["stringSym"] = "string";
+}
+
 std::string Scanner::getFileName() {
     return this->fileName;
 }
