@@ -8,7 +8,8 @@
  *      2. public default constructor
  *      3. public param constructor
  *      4. private functions
- *      5. public functions */
+ *      5. (private) getters & setters
+ *      6. public functions */
 
 #include "scanner.h"
 
@@ -29,5 +30,21 @@ bool Scanner::openFile() {
         return false;
     }
     return true;
+}
+
+std::string Scanner::getFileName() {
+    return this->fileName;
+}
+
+std::string Scanner::getCurrentLine() {
+    return this->currentLine;
+}
+
+void Scanner::setFileName(std::string a){
+    this->fileName = a;
+}
+
+void Scanner::setCurrentLine(std::string a) {
+    this->currentLine = a;
 }
 

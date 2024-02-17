@@ -29,6 +29,13 @@ class Scanner {
         std::string currentLine;                // std::getline(ifs, currentLine) ; the `current` line in our source code file
 
         bool openFile();        // using `fileName`, attempt to open given `source code` file
+        void nextLine();        // grabs the `next line` in the file and sets it equal to currentLine
+
+        std::string getFileName();
+        std::string getCurrentLine();
+
+        void setFileName(std::string a);
+        void setCurrentLine(std::string a);
 
     public:
         Scanner();                      // default
