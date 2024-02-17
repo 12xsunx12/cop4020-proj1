@@ -36,12 +36,23 @@ bool Scanner::openFile() {
     return true;
 }
 
-std::string Scanner::nextLine() {
+void Scanner::nextLine() {
     std::string temp;
     std::getline(ifs, temp);
     setCurrentLine(temp);
     totalLines++;
-    return getCurrentLine();
+}
+
+std::string Scanner::clean(const std::string& input) {
+    std::string result = input;
+
+    // Remove whitespaces
+    result.erase(std::remove(result.begin(), result.end(), ' '), result.end());
+
+    // Remove newline characters
+    result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
+
+    return result;
 }
 
 void Scanner::initAll() {
@@ -72,6 +83,8 @@ void Scanner::initKeywordTable() {
     keywordTable["doSym"]       = "do";
     keywordTable["intSym"]      = "int";
     keywordTable["stringSym"]   = "string";
+    keywordTable["beginSym"]    = "begin";
+    keywordTable["endSym"]      = "end.";
 }
 
 void Scanner::initAlphabet() {
@@ -109,12 +122,19 @@ void Scanner::setCurrentLine(std::string a) {
     this->currentLine = a;
 }
 
-void Scanner::test() {
-    initDigits();
+void Scanner::scan() {
+    // grab the first line; should be 'begin' or usually a comment
+    nextLine();
+}
 
-    for (int a : DIGITS){
-        std:: cout << a << std::endl;
-    }
+void Scanner::test() {
+    std::string temp = "hello world! \n I'm wondering when this project will finish";
+
+    std::cout << temp << std::endl;
+
+    temp = clean(temp);
+
+    std::cout << temp << std::endl;
 }
 
 bool Scanner::openFile(std::string fileName) {
