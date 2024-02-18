@@ -25,10 +25,14 @@
 class Parser {
     private:
         std::vector<Token> tokens;
+        void parseParen();          // checks for paren and bracket notation
+        void parseKeyword();     // checks for mispelled keywords
+        void parseExpression();               // checks for proper expressions
 
     public:
         Parser(std::vector<Token> tokens);
         void printTokens();
+        void parse(); // run all checks
 };
 
 #endif

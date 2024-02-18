@@ -17,6 +17,25 @@ Parser::Parser(std::vector<Token> tokens) {
     this->tokens = tokens;
 }
 
+void Parser::parseParen() {
+    int lParen = 0, rParen = 0;
+
+    // count all parens
+    for (int i = 0; i < tokens.size(); i++) {
+        if (tokens.at(i).tokenType == "lParen") lParen += 1;
+        if (tokens.at(i).tokenType == "rParen") rParen += 1;
+    }
+
+    // check to see if they're the same number
+    if (lParen != rParen) {
+        std::cout << "Error: paren" << std::endl;
+    }
+}
+
+void Parser::parse() {
+    parseParen();
+}
+
 void Parser::printTokens() {
     std::cout << "Size of Vector: " << tokens.size() << std::endl;
     for (long unsigned int i = 0; i < tokens.size(); i++) {
