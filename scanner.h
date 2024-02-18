@@ -42,8 +42,6 @@ class Scanner {
         void nextLine();                                // grabs the `next line` in the file and sets it equal to currentLine
         std::string clean(const std::string& input);    // scrub a string clean of 'white-spaces' and '\n'
 
-        bool scanBegin(long unsigned int& currentLocation);         // current lexeme is the "Begin" operator located at the top of a file
-        bool scanEnd(long unsigned int& currentLocation);           // current lexeme is the "End." operator located at the end of the 'source code' file.
         bool scanOp(long unsigned int& currentLocation);            // current lexeme is an operator
         bool scanKeyword(long unsigned int& currentLocation);       // current lexeme is a keyword
         bool scanIdentifier(long unsigned int& currentLocation);    // current lexeme is an identifier

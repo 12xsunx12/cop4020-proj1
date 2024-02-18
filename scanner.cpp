@@ -55,66 +55,6 @@ std::string Scanner::clean(const std::string& input) {
     return result;
 }
 
-bool Scanner::scanBegin(long unsigned int& currentLocation) {
-    std::string tempStr;
-
-    // Check if there are at least 5 characters remaining in currentLine
-    if (currentLocation + 4 >= currentLine.length()) {
-        return false;
-    }
-
-    // Check if the character at the current position is 'b'
-    if (currentLine[currentLocation] != 'b') {
-        return false;
-    }
-
-    // Create a substring with the next 5 characters
-    tempStr = currentLine.substr(currentLocation, 5);
-
-    // Check if this substring exists in the keywordTable
-    if (keywordTable.count(tempStr) > 0) {
-        // Create a token
-        Token temp;
-        temp.tokenType = keywordTable.find(tempStr)->second;
-        temp.lexeme = tempStr;
-        temp.lineNumber = -1; // figure out how to set line number later
-        tokens.push_back(temp);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool Scanner::scanEnd(long unsigned int& currentLocation) {
-    std::string tempStr;
-
-    // Check if there are at least 4 characters remaining in currentLine
-    if (currentLocation + 3 >= currentLine.length()) {
-        return false;
-    }
-
-    // Check if the characters at the current position form 'end.'
-    if (currentLine[currentLocation] != 'e' || currentLine[currentLocation + 1] != 'n' || currentLine[currentLocation + 2] != 'd' || currentLine[currentLocation + 3] != '.') {
-        return false;
-    }
-
-    // Create a substring with the next 4 characters
-    tempStr = currentLine.substr(currentLocation, 4);
-
-    // Check if this substring exists in the keywordTable
-    if (keywordTable.count(tempStr) > 0) {
-        // Create a token
-        Token temp;
-        temp.tokenType = keywordTable[tempStr];
-        temp.lexeme = tempStr;
-        temp.lineNumber = -1;   // figure out how to set line number later
-        tokens.push_back(temp);
-        return true;
-    } else {
-        return false;
-    }
-}
-
 bool Scanner::scanOp(long unsigned int& currentLocation) {
     char tempChar = currentLine[currentLocation];
 
@@ -145,9 +85,46 @@ bool Scanner::scanKeyword(long unsigned int& currentLocation) {
             tempStr += currentLine[currentLocation + i];
 
             if (keywordTable.count(tempStr) > 0) {
+                // to not confuse remaining letters with identifiers, skip them
+                currentLocation += i;
                 // Create token, we found a match in the table
                 Token temp;
                 temp.tokenType = keywordTable[tempStr];
+                temp.lexeme = tempStr;
+                temp.lineNumber = -1; // figure this out later @ regan
+                tokens.push_back(temp);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Scanner::scanIdentifier(long unsigned int& currentLocation) {
+    std::string tempStr;
+    int idenLength = 0;
+
+    // first, check to see if this character is an operator or part of a keyword. If it is, return false
+    if (scanOp(currentLocation)) {
+        return false;
+    } else if (scanKeyword(currentLocation)) {
+        return false;
+    }
+
+    // identifiers are usually followed by an operator of some kind, so count how many characters there are b4 one and assume that's an identifier
+    while(true) {
+        if (idenLength > currentLocation) {
+            return false;
+        } else {
+            tempStr += currentLine[currentLocation + idenLength];
+            idenLength += 1;
+
+            if (opTable.count(currentLine[idenLength + currentLocation]) > 0) {
+                // assume we have a built identifier and add it
+                currentLocation += idenLength - 1;
+                Token temp;
+                temp.tokenType = "idenSym";
                 temp.lexeme = tempStr;
                 temp.lineNumber = -1; // figure this out later @ regan
                 tokens.push_back(temp);
@@ -269,9 +246,15 @@ void Scanner::scan() {
 
         // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
         for (long unsigned int i = 0; i < currentLine.length(); i++) {
-            scanKeyword(i);
-            scanOp(i);
-            scanNumber(i);
+            if (scanKeyword(i)) {
+                continue;
+            } else if (scanOp(i)) {
+                continue;
+            } else if (scanNumber(i)) {
+                continue;
+            } else {
+                scanIdentifier(i);
+            }
         }
     }
 }
@@ -293,6 +276,6 @@ bool Scanner::openFile(std::string fileName) {
 void Scanner::printTokens() {
     std::cout << "Size of Vector: " << tokens.size() << std::endl;
     for (long unsigned int i = 0; i < tokens.size(); i++) {
-        std::cout << "Token Type: \t" << tokens.at(i).tokenType << std::endl << "Token Lexeme: \t" << tokens.at(i).lexeme << std::endl << std::endl;
+        std::cout << "Token: \t" << tokens.at(i).tokenType << "    \tLexeme: \t" << tokens.at(i).lexeme << std::endl;
     }
 }
