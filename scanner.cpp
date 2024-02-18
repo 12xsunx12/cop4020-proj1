@@ -72,12 +72,42 @@ bool Scanner::scanBegin(long unsigned int& currentLocation) {
     tempStr = currentLine.substr(currentLocation, 5);
 
     // Check if this substring exists in the keywordTable
-    if (keywordTable.count("begin") > 0) {
+    if (keywordTable.count(tempStr) > 0) {
         // Create a token
         Token temp;
         temp.tokenType = keywordTable.find(tempStr)->second;
         temp.lexeme = tempStr;
-        temp.lineNumber = -1; // You may want to set the line number appropriately
+        temp.lineNumber = -1; // figure out how to set line number later
+        tokens.push_back(temp);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Scanner::scanEnd(long unsigned int& currentLocation) {
+    std::string tempStr;
+
+    // Check if there are at least 4 characters remaining in currentLine
+    if (currentLocation + 3 >= currentLine.length()) {
+        return false;
+    }
+
+    // Check if the characters at the current position form 'end.'
+    if (currentLine[currentLocation] != 'e' || currentLine[currentLocation + 1] != 'n' || currentLine[currentLocation + 2] != 'd' || currentLine[currentLocation + 3] != '.') {
+        return false;
+    }
+
+    // Create a substring with the next 4 characters
+    tempStr = currentLine.substr(currentLocation, 4);
+
+    // Check if this substring exists in the keywordTable
+    if (keywordTable.count(tempStr) > 0) {
+        // Create a token
+        Token temp;
+        temp.tokenType = keywordTable[tempStr];
+        temp.lexeme = tempStr;
+        temp.lineNumber = -1;   // figure out how to set line number later
         tokens.push_back(temp);
         return true;
     } else {
@@ -155,17 +185,18 @@ void Scanner::setCurrentLine(std::string a) {
 void Scanner::scan() {
     // open the file
     openFile(fileName);
-    // grab the first line; should be 'begin' or usually a comment
-    nextLine();
+    // iterate through every line in the file
+    while (std::getline(ifs, currentLine)) {
+        // remove all whitespaces and newlines from the string
+        currentLine = clean(currentLine);
 
-    // remove all whitespaces and newlines from the string
-    currentLine = clean(currentLine);
+        std::cout << currentLine << std::endl;
 
-    std::cout << currentLine << std::endl;
-
-    // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
-    for (long unsigned int i = 0; i < currentLine.length(); i++) {
-        scanBegin(i);
+        // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
+        for (long unsigned int i = 0; i < currentLine.length(); i++) {
+            scanBegin(i);
+            scanEnd(i);
+        }
     }
 }
 
