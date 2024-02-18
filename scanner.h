@@ -28,7 +28,7 @@ struct Token {
 
 class Scanner {
     private:
-        std::unordered_map<std::string, char> opTable;                  // map & keys to all acceptable operators; (, ), {, }, +, -, *, /
+        std::unordered_map<char, std::string> opTable;                  // map & keys to all acceptable operators; (, ), {, }, +, -, *, /
         std::unordered_map<std::string, std::string> keywordTable;      // map & keys to all acceptable keywords; if, else, while, return...
         std::unordered_set<char> ALPHABET;      // the entire english alphabet, a-z and A-Z
         std::unordered_set<int> DIGITS;         // 1-9 numbers

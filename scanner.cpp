@@ -115,6 +115,23 @@ bool Scanner::scanEnd(long unsigned int& currentLocation) {
     }
 }
 
+bool Scanner::scanOp(long unsigned int& currentLocation) {
+    char tempChar = currentLine[currentLocation];
+
+    // check if the current location is any of the operators
+    if (opTable.count(tempChar) > 0) {
+        // Create token
+        Token temp;
+        temp.tokenType = opTable[tempChar];
+        temp.lexeme = tempChar;
+        temp.lineNumber = -1; // figure this out later @regan
+        tokens.push_back(temp);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Scanner::initAll() {
     initOpTable();
     initKeywordTable();
@@ -123,16 +140,17 @@ void Scanner::initAll() {
 }
 
 void Scanner::initOpTable() {
-    opTable["lParen"]   = '(';
-    opTable["rParen"]   = ')';
-    opTable["lCurly"]   = '{';
-    opTable["rCurly"]   = '}';
-    opTable["plusSym"]  = '+';
-    opTable["minusSym"] = '-';
-    opTable["multSym"]  = '*';
-    opTable["divSym"]   = '/';
-    opTable["semi"]     = ';';
-    opTable["comma"]    = ',';
+    opTable['(']    = "lParen";
+    opTable[')']    = "rParen";
+    opTable['{']    = "lCurly";
+    opTable['}']    = "rCurly";
+    opTable['+']    = "plusSym";
+    opTable['-']    = "minusSym";
+    opTable['*']    = "multSym";
+    opTable['/']    = "divSym";
+    opTable[';']    = "semi";
+    opTable[',']    = "comma";
+    opTable['=']    = "equalSym";
 }
 
 void Scanner::initKeywordTable() {
@@ -196,6 +214,7 @@ void Scanner::scan() {
         for (long unsigned int i = 0; i < currentLine.length(); i++) {
             scanBegin(i);
             scanEnd(i);
+            scanOp(i);
         }
     }
 }
