@@ -132,6 +132,33 @@ bool Scanner::scanOp(long unsigned int& currentLocation) {
     }
 }
 
+bool Scanner::scanKeyword(long unsigned int& currentLocation) {
+    // longest word in the map is 6 letters, reserve up to 6 letters and scan to see if any of them match
+    std::string tempStr;
+    int length = currentLine.length();
+
+    // check for every next 6 letters, if it builds a string that exists inside keywordTable
+    for (long unsigned int i = 0; i < 6; i++) {
+        if (i > length - currentLocation) {
+            return false;
+        } else {
+            tempStr += currentLine[currentLocation + i];
+
+            if (keywordTable.count(tempStr) > 0) {
+                // Create token, we found a match in the table
+                Token temp;
+                temp.tokenType = keywordTable[tempStr];
+                temp.lexeme = tempStr;
+                temp.lineNumber = -1; // figure this out later @ regan
+                tokens.push_back(temp);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 bool Scanner::scanNumber(long unsigned int& currentLocation) {
     std::string tempStr;
     long unsigned int numStart = currentLocation; // Store the start index of the number
@@ -242,8 +269,7 @@ void Scanner::scan() {
 
         // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
         for (long unsigned int i = 0; i < currentLine.length(); i++) {
-            scanBegin(i);
-            scanEnd(i);
+            scanKeyword(i);
             scanOp(i);
             scanNumber(i);
         }
