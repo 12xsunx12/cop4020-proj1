@@ -226,6 +226,10 @@ std::string Scanner::getCurrentLine() {
     return this->currentLine;
 }
 
+std::vector<Token> Scanner::getTokens() {
+    return this->tokens;
+}
+
 void Scanner::setFileName(std::string a){
     this->fileName = a;
 }

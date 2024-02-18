@@ -20,11 +20,7 @@
 #include <algorithm>
 #include <vector>
 
-struct Token {
-    std::string lexeme;
-    std::string tokenType;
-    int lineNumber;
-};
+#include "token.h"
 
 class Scanner {
     private:
@@ -53,11 +49,6 @@ class Scanner {
         void initAlphabet();        // init. the ALPHABET set
         void initDigits();          // init. the DIGITS set
 
-        std::string getFileName();
-        std::string getCurrentLine();
-        void setFileName(std::string a);
-        void setCurrentLine(std::string a);
-
     public:
         Scanner();                              // default
         Scanner(std::string fileName);          // param
@@ -65,6 +56,12 @@ class Scanner {
         void test();                            // used for testing priv. functions in main
         bool openFile(std::string fileName);    // open a `source code` file given a string; sets fileName to input as well
         void printTokens();                     // print all tokens in the vector
+
+        std::string getFileName();
+        std::string getCurrentLine();
+        std::vector<Token> getTokens();
+        void setFileName(std::string a);
+        void setCurrentLine(std::string a);
 };
 
 #endif

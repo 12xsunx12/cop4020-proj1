@@ -10,3 +10,16 @@
  *      4. private functions
  *      5. (private) getters & setters
  *      6. public functions */
+
+#include "parser.h"
+
+Parser::Parser(std::vector<Token> tokens) {
+    this->tokens = tokens;
+}
+
+void Parser::printTokens() {
+    std::cout << "Size of Vector: " << tokens.size() << std::endl;
+    for (long unsigned int i = 0; i < tokens.size(); i++) {
+        std::cout << "Token: \t" << tokens.at(i).tokenType << "    \tLexeme: \t" << tokens.at(i).lexeme << "\tLine Number:\t" << tokens.at(i).lineNumber << std::endl;
+    }
+}

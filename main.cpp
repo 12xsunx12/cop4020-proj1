@@ -8,11 +8,13 @@
  *      2. int main() {} */
 
 #include "scanner.h"
+#include "parser.h"
 
 int main() {
     Scanner s("example-source-code-inputs/a4");
-
-    s.test();
+    s.scan();
+    Parser p(s.getTokens());
+    p.printTokens();
 
     return 0;
 }

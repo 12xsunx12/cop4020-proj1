@@ -20,17 +20,15 @@
 #include <algorithm>
 #include <vector>
 
-struct Token {
-    std::string lexeme;
-    std::string tokenType;
-    int lineNumber;
-};
+#include "token.h"
 
 class Parser {
     private:
         std::vector<Token> tokens;
 
     public:
+        Parser(std::vector<Token> tokens);
+        void printTokens();
 };
 
 #endif
