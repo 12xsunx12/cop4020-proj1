@@ -132,6 +132,36 @@ bool Scanner::scanOp(long unsigned int& currentLocation) {
     }
 }
 
+bool Scanner::scanNumber(long unsigned int& currentLocation) {
+    std::string tempStr;
+    long unsigned int numStart = currentLocation; // Store the start index of the number
+
+    // Scan until a non-digit character is encountered
+    while (isdigit(currentLine[currentLocation])) {
+        currentLocation++;
+    }
+
+    // Check if any digits were found
+    if (currentLocation > numStart) {
+        // Create a substring with the digits
+        tempStr = currentLine.substr(numStart, currentLocation - numStart);
+
+        // Create a token
+        Token temp;
+        temp.tokenType = "digit"; // Assuming this is the token type for numerical digits
+        temp.lexeme = tempStr;
+        temp.lineNumber = -1; // figure out how to set line number later
+        tokens.push_back(temp);
+
+        // Decrement currentLocation to point to the character after the number
+        currentLocation--;
+
+        return true;
+    } else {
+        return false; // No digits found
+    }
+}
+
 void Scanner::initAll() {
     initOpTable();
     initKeywordTable();
@@ -215,6 +245,7 @@ void Scanner::scan() {
             scanBegin(i);
             scanEnd(i);
             scanOp(i);
+            scanNumber(i);
         }
     }
 }
@@ -236,6 +267,6 @@ bool Scanner::openFile(std::string fileName) {
 void Scanner::printTokens() {
     std::cout << "Size of Vector: " << tokens.size() << std::endl;
     for (long unsigned int i = 0; i < tokens.size(); i++) {
-        std::cout << tokens.at(i).tokenType << std::endl;
+        std::cout << "Token Type: \t" << tokens.at(i).tokenType << std::endl << "Token Lexeme: \t" << tokens.at(i).lexeme << std::endl << std::endl;
     }
 }
