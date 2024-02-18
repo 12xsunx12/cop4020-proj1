@@ -64,7 +64,7 @@ bool Scanner::scanOp(long unsigned int& currentLocation) {
         Token temp;
         temp.tokenType = opTable[tempChar];
         temp.lexeme = tempChar;
-        temp.lineNumber = -1; // figure this out later @regan
+        temp.lineNumber = totalLines; // figure this out later @regan
         tokens.push_back(temp);
         return true;
     } else {
@@ -91,7 +91,7 @@ bool Scanner::scanKeyword(long unsigned int& currentLocation) {
                 Token temp;
                 temp.tokenType = keywordTable[tempStr];
                 temp.lexeme = tempStr;
-                temp.lineNumber = -1; // figure this out later @ regan
+                temp.lineNumber = totalLines; // figure this out later @ regan
                 tokens.push_back(temp);
                 return true;
             }
@@ -126,7 +126,7 @@ bool Scanner::scanIdentifier(long unsigned int& currentLocation) {
                 Token temp;
                 temp.tokenType = "idenSym";
                 temp.lexeme = tempStr;
-                temp.lineNumber = -1; // figure this out later @ regan
+                temp.lineNumber = totalLines;
                 tokens.push_back(temp);
                 return true;
             }
@@ -154,7 +154,7 @@ bool Scanner::scanNumber(long unsigned int& currentLocation) {
         Token temp;
         temp.tokenType = "digit"; // Assuming this is the token type for numerical digits
         temp.lexeme = tempStr;
-        temp.lineNumber = -1; // figure out how to set line number later
+        temp.lineNumber = totalLines; // figure out how to set line number later
         tokens.push_back(temp);
 
         // Decrement currentLocation to point to the character after the number
@@ -239,6 +239,7 @@ void Scanner::scan() {
     openFile(fileName);
     // iterate through every line in the file
     while (std::getline(ifs, currentLine)) {
+        totalLines += 1;
         // remove all whitespaces and newlines from the string
         currentLine = clean(currentLine);
 
@@ -276,6 +277,6 @@ bool Scanner::openFile(std::string fileName) {
 void Scanner::printTokens() {
     std::cout << "Size of Vector: " << tokens.size() << std::endl;
     for (long unsigned int i = 0; i < tokens.size(); i++) {
-        std::cout << "Token: \t" << tokens.at(i).tokenType << "    \tLexeme: \t" << tokens.at(i).lexeme << std::endl;
+        std::cout << "Token: \t" << tokens.at(i).tokenType << "    \tLexeme: \t" << tokens.at(i).lexeme << "\tLine Number:\t" << tokens.at(i).lineNumber << std::endl;
     }
 }

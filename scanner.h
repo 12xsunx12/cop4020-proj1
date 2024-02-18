@@ -17,7 +17,7 @@
 #include <fstream>          // file input and output
 #include <unordered_map>    // similar to dictionaries in python; hashmaps
 #include <unordered_set>    // O(1) lookup; slap the entire english alphabet and all 1-9 digits into a set
-#include <algorithm>        // remove this one later
+#include <algorithm>
 #include <vector>
 
 struct Token {
