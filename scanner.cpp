@@ -55,6 +55,36 @@ std::string Scanner::clean(const std::string& input) {
     return result;
 }
 
+bool Scanner::scanBegin(long unsigned int& currentLocation) {
+    std::string tempStr;
+
+    // Check if there are at least 5 characters remaining in currentLine
+    if (currentLocation + 4 >= currentLine.length()) {
+        return false;
+    }
+
+    // Check if the character at the current position is 'b'
+    if (currentLine[currentLocation] != 'b') {
+        return false;
+    }
+
+    // Create a substring with the next 5 characters
+    tempStr = currentLine.substr(currentLocation, 5);
+
+    // Check if this substring exists in the keywordTable
+    if (keywordTable.count("begin") > 0) {
+        // Create a token
+        Token temp;
+        temp.tokenType = keywordTable.find(tempStr)->second;
+        temp.lexeme = tempStr;
+        temp.lineNumber = -1; // You may want to set the line number appropriately
+        tokens.push_back(temp);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Scanner::initAll() {
     initOpTable();
     initKeywordTable();
@@ -76,15 +106,15 @@ void Scanner::initOpTable() {
 }
 
 void Scanner::initKeywordTable() {
-    keywordTable["whileSym"]    = "while";
-    keywordTable["returnSym"]   = "return";
-    keywordTable["ifSym"]       = "if";
-    keywordTable["elseSym"]     = "else";
-    keywordTable["doSym"]       = "do";
-    keywordTable["intSym"]      = "int";
-    keywordTable["stringSym"]   = "string";
-    keywordTable["beginSym"]    = "begin";
-    keywordTable["endSym"]      = "end.";
+    keywordTable["while"]    = "whileSym";
+    keywordTable["return"]   = "returnSym";
+    keywordTable["if"]       = "ifSym";
+    keywordTable["else"]     = "elseSym";
+    keywordTable["do"]       = "doSym";
+    keywordTable["int"]      = "intSym";
+    keywordTable["string"]   = "stringSym";
+    keywordTable["begin"]    = "beginSym";
+    keywordTable["end."]     = "endSym";
 }
 
 void Scanner::initAlphabet() {
@@ -123,18 +153,25 @@ void Scanner::setCurrentLine(std::string a) {
 }
 
 void Scanner::scan() {
+    // open the file
+    openFile(fileName);
     // grab the first line; should be 'begin' or usually a comment
     nextLine();
+
+    // remove all whitespaces and newlines from the string
+    currentLine = clean(currentLine);
+
+    std::cout << currentLine << std::endl;
+
+    // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
+    for (long unsigned int i = 0; i < currentLine.length(); i++) {
+        scanBegin(i);
+    }
 }
 
 void Scanner::test() {
-    std::string temp = "hello world! \n I'm wondering when this project will finish";
-
-    std::cout << temp << std::endl;
-
-    temp = clean(temp);
-
-    std::cout << temp << std::endl;
+    scan();
+    printTokens();
 }
 
 bool Scanner::openFile(std::string fileName) {
@@ -144,4 +181,11 @@ bool Scanner::openFile(std::string fileName) {
         return false;
     }
     return true;
+}
+
+void Scanner::printTokens() {
+    std::cout << "Size of Vector: " << tokens.size() << std::endl;
+    for (long unsigned int i = 0; i < tokens.size(); i++) {
+        std::cout << tokens.at(i).tokenType << std::endl;
+    }
 }

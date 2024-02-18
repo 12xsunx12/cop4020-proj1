@@ -17,7 +17,8 @@
 #include <fstream>          // file input and output
 #include <unordered_map>    // similar to dictionaries in python; hashmaps
 #include <unordered_set>    // O(1) lookup; slap the entire english alphabet and all 1-9 digits into a set
-#include <algorithm>
+#include <algorithm>        // remove this one later
+#include <vector>
 
 struct Token {
     std::string lexeme;
@@ -35,17 +36,18 @@ class Scanner {
         std::ifstream ifs;                      // input file stream; read input file
         std::string currentLine;                // std::getline(ifs, currentLine) ; the `current` line in our source code file
         int totalLines;                         // count how many lines are in the `source code` file; incremented in `nextLine()`
+        std::vector<Token> tokens;              // vector holding all created tokens
 
-        bool openFile();            // using `fileName`, attempts to open given `source code` file
-        void nextLine();            // grabs the `next line` in the file and sets it equal to currentLine
+        bool openFile();                                // using `fileName`, attempts to open given `source code` file
+        void nextLine();                                // grabs the `next line` in the file and sets it equal to currentLine
         std::string clean(const std::string& input);    // scrub a string clean of 'white-spaces' and '\n'
 
-        Token scanBegin();          // current lexeme is the "Begin" operator located at the top of a file
-        Token scanEnd();            // current lexeme is the "End." operator located at the end of the 'source code' file.
-        Token scanOp();             // current lexeme is an operator
-        Token scanKeyword();        // current lexeme is a keyword
-        Token scanIdentifier();     // current lexeme is an identifier
-        Token scanNumber();         // current lexeme is a number
+        bool scanBegin(long unsigned int& currentLocation);   // current lexeme is the "Begin" operator located at the top of a file
+        Token scanEnd();                        // current lexeme is the "End." operator located at the end of the 'source code' file.
+        Token scanOp();                         // current lexeme is an operator
+        Token scanKeyword();                    // current lexeme is a keyword
+        Token scanIdentifier();                 // current lexeme is an identifier
+        Token scanNumber();                     // current lexeme is a number
 
         void initAll();             // run all `init` functions
         void initOpTable();         // init. the opTable hashmap
@@ -64,6 +66,7 @@ class Scanner {
         void scan();                            // scan and tokenize the entire file
         void test();                            // used for testing priv. functions in main
         bool openFile(std::string fileName);    // open a `source code` file given a string; sets fileName to input as well
+        void printTokens();                     // print all tokens in the vector
 };
 
 #endif
