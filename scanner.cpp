@@ -251,6 +251,10 @@ void Scanner::scan() {
 
         // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
         for (long unsigned int i = 0; i < currentLine.length(); i++) {
+            if (currentLine.find('~') != std::string::npos) {
+                break;
+            }
+
             if (scanKeyword(i)) {
                 continue;
             } else if (scanOp(i)) {
