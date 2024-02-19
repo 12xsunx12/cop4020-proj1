@@ -73,66 +73,50 @@ bool Scanner::scanOp(long unsigned int& currentLocation) {
 }
 
 bool Scanner::scanKeyword(long unsigned int& currentLocation) {
-    // longest word in the map is 6 letters, reserve up to 6 letters and scan to see if any of them match
-    std::string tempStr;
-    int length = currentLine.length();
-
-    // check for every next 6 letters, if it builds a string that exists inside keywordTable
-    for (long unsigned int i = 0; i < 6; i++) {
-        if (i > length - currentLocation) {
-            return false;
-        } else {
-            tempStr += currentLine[currentLocation + i];
-
+    // Scan for keywords starting from the current location
+    for (int len = 1; len <= 6; len++) {
+        // Check if there are enough characters remaining to form a keyword of length 'len'
+        if (currentLocation + len <= currentLine.length()) {
+            std::string tempStr = currentLine.substr(currentLocation, len);
             if (keywordTable.count(tempStr) > 0) {
-                // to not confuse remaining letters with identifiers, skip them
-                currentLocation += i;
-                // Create token, we found a match in the table
+                // Create token for the keyword
                 Token temp;
                 temp.tokenType = keywordTable[tempStr];
                 temp.lexeme = tempStr;
-                temp.lineNumber = totalLines; // figure this out later @ regan
+                temp.lineNumber = totalLines;
                 tokens.push_back(temp);
+                // Move the current location to the end of the matched keyword
+                currentLocation += len - 1;
                 return true;
             }
         }
     }
-
-    return false;
+    return false; // No keyword found
 }
 
 bool Scanner::scanIdentifier(long unsigned int& currentLocation) {
     std::string tempStr;
     int idenLength = 0;
 
-    // first, check to see if this character is an operator or part of a keyword. If it is, return false
-    if (scanOp(currentLocation)) {
-        return false;
-    } else if (scanKeyword(currentLocation)) {
-        return false;
-    }
+    // Continue scanning characters as long as they are alphanumeric
+    while (isalnum(currentLine[currentLocation + idenLength]) || currentLine[currentLocation + idenLength] == '_') {
+        tempStr += currentLine[currentLocation + idenLength];
+        idenLength++;
 
-    // identifiers are usually followed by an operator of some kind, so count how many characters there are b4 one and assume that's an identifier
-    while(true) {
-        if (idenLength > currentLocation) {
-            return false;
-        } else {
-            tempStr += currentLine[currentLocation + idenLength];
-            idenLength += 1;
-
-            if (opTable.count(currentLine[idenLength + currentLocation]) > 0) {
-                // assume we have a built identifier and add it
-                currentLocation += idenLength - 1;
-                Token temp;
-                temp.tokenType = "idenSym";
-                temp.lexeme = tempStr;
-                temp.lineNumber = totalLines;
-                tokens.push_back(temp);
-                return true;
-            }
+        // Check if the next character is an operator or if we have reached the end of the line
+        if (!isalnum(currentLine[currentLocation + idenLength]) && (currentLine[currentLocation + idenLength]) != '_') {
+            // Create token for the identifier
+            Token temp;
+            temp.tokenType = "idenSym";
+            temp.lexeme = tempStr;
+            temp.lineNumber = totalLines;
+            tokens.push_back(temp);
+            currentLocation += idenLength - 1;
+            return true;
         }
     }
 
+    // No identifier found
     return false;
 }
 
@@ -261,7 +245,7 @@ void Scanner::scan() {
                 continue;
             } else if (scanNumber(i)) {
                 continue;
-            } else {
+            } else if (isalpha(currentLine[i])) {
                 scanIdentifier(i);
             }
         }

@@ -14,9 +14,9 @@ int main() {
     Scanner s("example-source-code-inputs/a5");
     s.scan();
     Parser p(s.getTokens());
-    p.printTokens();
+    s.printTokens();
 
-    p.parse();
+    //p.parse();
 
     return 0;
 }

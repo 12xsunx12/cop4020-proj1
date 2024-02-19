@@ -32,8 +32,27 @@ void Parser::parseParen() {
     }
 }
 
+bool Parser::parseIdentifier() {
+    // determine return value
+    bool torf = true;
+
+    // for every token in the vector
+    for (long unsigned int i = 0; i < tokens.size(); i++) {
+
+        // if token ends with underscore...
+        std::cout << tokens.at(i).lexeme << std::endl;
+        if (tokens.at(i).lexeme[tokens.at(i).lexeme.length()] == '_') {
+            std::cout << "Error: ends with underscore\t" << "Line: " << tokens.at(i).lineNumber;
+            torf = false;
+        }
+    }
+
+    return torf;
+}
+
 void Parser::parse() {
     parseParen();
+    parseIdentifier();
 }
 
 void Parser::printTokens() {
