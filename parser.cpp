@@ -38,11 +38,9 @@ bool Parser::parseIdentifier() {
 
     // for every token in the vector
     for (long unsigned int i = 0; i < tokens.size(); i++) {
-
         // if token ends with underscore...
-        std::cout << tokens.at(i).lexeme << std::endl;
-        if (tokens.at(i).lexeme[tokens.at(i).lexeme.length()] == '_') {
-            std::cout << "Error: ends with underscore\t" << "Line: " << tokens.at(i).lineNumber;
+        if (tokens.at(i).lexeme.back() == '_') {
+            std::cout << "Error: Identifier ends with underscore on " << "Line: " << tokens.at(i).lineNumber << "\tIdentifier: " << tokens.at(i).lexeme << std::endl;
             torf = false;
         }
     }

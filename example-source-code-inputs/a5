@@ -2,7 +2,7 @@
 ~ it actually has two comments ...
 
 begin
-  a_sdf = b+c+d+e+f+ghijk;
+  a__sdf_ = b+c+d+e+f+ghijk;
   b (c+hello) * (a - 5);
 end.
 
