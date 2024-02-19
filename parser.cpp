@@ -21,7 +21,7 @@ bool Parser::parseParen() {
     int lParen = 0, rParen = 0;
 
     // count all parens
-    for (int i = 0; i < tokens.size(); i++) {
+    for (long unsigned int i = 0; i < tokens.size(); i++) {
         if (tokens.at(i).tokenType == "lParen") lParen += 1;
         if (tokens.at(i).tokenType == "rParen") rParen += 1;
     }
@@ -45,7 +45,7 @@ bool Parser::parseIdentifier() {
         }
 
         // if token has two under-scores next to each other in it's name
-        for (int j = 0; j < tokens.at(i).lexeme.length(); j++) {
+        for (long unsigned int j = 0; j < tokens.at(i).lexeme.length(); j++) {
             if (tokens.at(i).lexeme[j] == '_' && tokens.at(i).lexeme[j+1] == '_') {
                 std::cout << "Error: Identifier has two consecutive underscores " << "Line: " << tokens.at(i).lineNumber << "\tIdentifier: " << tokens.at(i).lexeme << std::endl;
                 return false;
@@ -53,6 +53,27 @@ bool Parser::parseIdentifier() {
         }
     }
 
+    return true;
+}
+
+bool Parser::parseIdentifierWithOperator() {
+    // Iterate through tokens, skipping the last one
+    for (long unsigned int i = 0; i < tokens.size() - 1; i++) {
+        // Check if the current token is an identifier
+        if (tokens.at(i).tokenType == "idenSym") {
+            // Check if the next token is a valid operator
+            if (tokens.at(i + 1).tokenType != "equalSym" &&
+                tokens.at(i + 1).tokenType != "minusSym" &&
+                tokens.at(i + 1).tokenType != "plusSym" &&
+                tokens.at(i + 1).tokenType != "multSym" &&
+                tokens.at(i + 1).tokenType != "divSym" &&
+                tokens.at(i + 1).tokenType != "semi" &&
+                tokens.at(i + 1).tokenType != "rParen") {
+                std::cout << "Error: Identifier not followed by a valid operator " << "Line: " << tokens.at(i).lineNumber << "\tIdentifier: " << tokens.at(i).lexeme << std::endl;
+                return false;
+            }
+        }
+    }
     return true;
 }
 
@@ -66,7 +87,7 @@ bool Parser::parseBegin() {
 }
 
 void Parser::parse() {
-    if (parseParen() && parseIdentifier() && parseBegin()) std::cout << "success! No errors found by parser." << std::endl;
+    if (parseParen() && parseIdentifier() && parseIdentifierWithOperator() && parseBegin()) std::cout << "success! No errors found by parser." << std::endl;
 }
 
 void Parser::printTokens() {

@@ -231,8 +231,6 @@ void Scanner::scan() {
         // remove all whitespaces and newlines from the string
         currentLine = clean(currentLine);
 
-        std::cout << currentLine << std::endl;
-
         // begin iterating over every character in the string and feeding it into subsequent, more logical, scanner functions, that check for edge-cases
         for (long unsigned int i = 0; i < currentLine.length(); i++) {
             if (currentLine.find('~') != std::string::npos) {

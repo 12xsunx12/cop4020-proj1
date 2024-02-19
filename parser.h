@@ -27,6 +27,7 @@ class Parser {
         std::vector<Token> tokens;
         bool parseParen();          // checks for paren and bracket notation
         bool parseIdentifier();     // checks for unacceptable identifier naming schemes
+        bool parseIdentifierWithOperator();
         bool parseBegin();     // checks for proper expressions
 
     public:
