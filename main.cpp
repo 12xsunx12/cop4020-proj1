@@ -11,12 +11,12 @@
 #include "parser.h"
 
 int main() {
-    Scanner s("example-source-code-inputs/a5");
+    Scanner s("example-source-code-inputs/a7");
     s.scan();
     Parser p(s.getTokens());
     //s.printTokens();
 
-    p.printTokens();
+    //p.printTokens();
     p.parse();
 
     return 0;

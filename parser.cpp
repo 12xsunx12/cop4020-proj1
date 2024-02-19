@@ -17,7 +17,7 @@ Parser::Parser(std::vector<Token> tokens) {
     this->tokens = tokens;
 }
 
-void Parser::parseParen() {
+bool Parser::parseParen() {
     int lParen = 0, rParen = 0;
 
     // count all parens
@@ -29,7 +29,10 @@ void Parser::parseParen() {
     // check to see if they're the same number
     if (lParen != rParen) {
         std::cout << "Error: paren" << std::endl;
+        return false;
     }
+
+    return true;
 }
 
 bool Parser::parseIdentifier() {
@@ -53,9 +56,17 @@ bool Parser::parseIdentifier() {
     return true;
 }
 
+bool Parser::parseBegin() {
+    // if the first token isn't 'begin', then flag it
+    if (tokens.at(0).tokenType != "beginSym") {
+        std::cout << "Error: \"begin\" either mispelled, not the first line, or doesn't exist. Please check at line: " << tokens.at(0).lineNumber << "\t Lexeme: " << tokens.at(0).lexeme << std::endl;
+        return false;
+    }
+    return true;
+}
+
 void Parser::parse() {
-    parseParen();
-    parseIdentifier();
+    if (parseParen() && parseIdentifier() && parseBegin()) std::cout << "success! No errors found by parser." << std::endl;
 }
 
 void Parser::printTokens() {
