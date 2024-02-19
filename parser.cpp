@@ -33,19 +33,24 @@ void Parser::parseParen() {
 }
 
 bool Parser::parseIdentifier() {
-    // determine return value
-    bool torf = true;
-
     // for every token in the vector
     for (long unsigned int i = 0; i < tokens.size(); i++) {
         // if token ends with underscore...
         if (tokens.at(i).lexeme.back() == '_') {
             std::cout << "Error: Identifier ends with underscore on " << "Line: " << tokens.at(i).lineNumber << "\tIdentifier: " << tokens.at(i).lexeme << std::endl;
-            torf = false;
+            return false;
+        }
+
+        // if token has two under-scores next to each other in it's name
+        for (int j = 0; j < tokens.at(i).lexeme.length(); j++) {
+            if (tokens.at(i).lexeme[j] == '_' && tokens.at(i).lexeme[j+1] == '_') {
+                std::cout << "Error: Identifier has two consecutive underscores " << "Line: " << tokens.at(i).lineNumber << "\tIdentifier: " << tokens.at(i).lexeme << std::endl;
+                return false;
+            }
         }
     }
 
-    return torf;
+    return true;
 }
 
 void Parser::parse() {
