@@ -10,11 +10,24 @@
 #include "scanner.h"
 #include "parser.h"
 
-int main() {
-    Scanner s("example-source-code-inputs/a8");
-    s.scan();
-    Parser p(s.getTokens());
-    p.parse();
+int main(int argc, char* argv[]) {
+    if (std::string(argv[1]) == "all") {
+        for (int i = 1; i <= 8; ++i) {
+            std::string fileName = "source-code-inputs/a" + std::to_string(i);
+            std::cout << fileName << std::endl;
+            Scanner s(fileName);
+            s.scan();
+            Parser p(s.getTokens());
+            p.parse();
+        }
+    } else {
+        for (int i = 1; i < argc; ++i) {
+            Scanner s(argv[i]);
+            s.scan();
+            Parser p(s.getTokens());
+            p.parse();
+        }
+    }
 
     return 0;
 }

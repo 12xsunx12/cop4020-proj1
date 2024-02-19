@@ -13,6 +13,9 @@ SOURCES = $(wildcard *.cpp)
 # Header files
 HEADERS = $(wildcard *.h)
 
+# List of file names
+FILES = a1 a2 a3 a4 a5 a6 a7 a8
+
 # Rule to build the target
 $(TARGET): $(SOURCES) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
@@ -22,8 +25,10 @@ $(TARGET): $(SOURCES) $(HEADERS)
 clean:
 	rm -f $(TARGET)
 
-# Target to run the executable
-.PHONY: run
-run: $(TARGET)
-	./$(TARGET)
-
+# Target to run the executable for all files
+.PHONY: all
+all: $(TARGET)
+	@for file in $(FILES); do \
+		echo "Running with $$file:"; \
+		./$(TARGET) source-code-inputs/$$file; \
+	done
